@@ -55,13 +55,11 @@ public class BatchConfiguration {
 	public JdbcBatchItemWriter<File> writer(DataSource dataSource) {
 		return new JdbcBatchItemWriterBuilder<File>()
 			.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-			.sql("DELETE FROM file WHERE file_id = (:fileid)")
+			.sql("DELETE FROM file_db.file WHERE file_id = (:fileid)")
 			.dataSource(dataSource)
 			.build();
 	}
-	// end::readerwriterprocessor[]
 
-	// tag::jobstep[]
 	@Bean
 	public Job importUserJob(FileRecordProcessor listener, Step step1) {
 		return jobBuilderFactory.get("importUserJob")
@@ -81,5 +79,5 @@ public class BatchConfiguration {
 			.writer(writer)
 			.build();
 	}
-	// end::jobstep[]
+
 }
